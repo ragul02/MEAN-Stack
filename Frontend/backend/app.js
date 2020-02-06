@@ -2,6 +2,25 @@
 const express = require('express');
 const bodyParser = require("body-parser");
 
+//import mongoose to connect with cluster
+const mongoose = require("mongoose");
+
+//Import Mongodb Model
+const Post = require('./models/post');
+// mongoose.set('useNewUrlParser', true);
+// mongoose.set('useUnifiedTopology', true);
+const db =   mongoose.connect('mongodb+srv://ragul:Q494xuBmLDhqQrhN@cluster0-0tack.mongodb.net/test?retryWrites=true&w=majority',
+   {   useNewUrlParser: true,
+    useFindAndModify: false,
+    useCreateIndex: true,
+    useUnifiedTopology: true,
+    })
+.then(() => {
+    console.log('Database connected succesfuuly!');
+}).catch( (error) => {
+    console.log('Database connection Failed!', error);
+
+});
 const app = express();
 
 app.use(bodyParser.json());
@@ -15,8 +34,12 @@ app.use(bodyParser.urlencoded({extended: false}));
     });
 
 app.post('/api/posts', (req, res, next) => {
-const post = req.body;
-console.log('post', res);
+    //Using the Post model from mongodb
+const post = new Post({
+    title: req.body.title,
+    content: req.body.content
+});
+console.log('post', post);
 res.status(201).json({
     message: 'Post added Succesfully!'
 })
