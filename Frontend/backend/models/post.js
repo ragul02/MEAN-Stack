@@ -8,3 +8,5 @@ const postSchema = mongoose.Schema({
 
 // model has two areguments 1st Name of model to use, 2nd Schema it required
 module.exports = mongoose.model('Post', postSchema);
+
+//collection(posts) will create in plural form of model  "Post"
