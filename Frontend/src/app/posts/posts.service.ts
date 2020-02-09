@@ -36,12 +36,25 @@ export class PostsService {
             // tslint:disable-next-line:object-literal-shorthand
             content: content,
         };
-        this.http.post<{ message: string }>('http://localhost:3000/api/posts', post)
+        this.http.post<{ message: string, postId:string }>('http://localhost:3000/api/posts', post)
             .subscribe(res => {
+                const id = res.postId;
+                post.id= id;
                 console.log('response', res.message);
                 this.posts.push(post);
                 this.postUpdated.next([...this.posts]);
             });
+    }
+
+
+    deletePost(postId){
+        this.http.delete('http://localhost:3000/api/posts/' + postId)
+        .subscribe( res => {
+            const postUpdates =  this.posts.filter(post => post.id !== postId);
+            this.posts = postUpdates;
+            this.postUpdated.next([...this.posts]);
+console.log(res);
+        });
     }
     // 0tbhVXHm3yJKF2h8
 }

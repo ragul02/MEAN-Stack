@@ -17,6 +17,9 @@ add IP to IP Whnpm instaitelist
 npm install mongoose
 
 #To connect ot MongoDB via shell
+Mongoose Docs: http://mongoosejs.com/docs/guide.html
+MongoDB Docs: https://www.mongodb.com/
+MongoDB Atlas Docs: https://www.mongodb.com/cloud/atlas
 1.click connect in cluster in mongodb.com
 2.download Mongo shell and install
 3.open cmd to directory bin in mongodb
