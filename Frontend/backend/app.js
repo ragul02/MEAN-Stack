@@ -47,21 +47,13 @@ res.status(201).json({
 });
 
 app.get('/api/posts', (req, res, next) => {
-    const posts = [{
-            id: '2adakmkjs34ds',
-            title: 'First title',
-            content: 'First content from server'
-        },
-        {
-            id: '4djgimkjs57kkfd',
-            title: 'Second title',
-            content: 'First content from server'
-        }
-    ]
-    res.status(200).json({
-        message: 'Post recieved successfully!',
-        posts: posts
-    })
+Post.find().then( documents =>{
+console.log('doc', documents);
+res.status(200).json({
+    message: 'Post recieved successfully!',
+    posts: documents
+})
+});
 });
 
 // app.use((req, res, next) => {

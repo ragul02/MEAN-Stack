@@ -12,9 +12,9 @@ mongobd.com - Create account
 <!-- ramachand -->
 create cluster 
 add user to cluster
-add IP to IP Whitelist 
+add IP to IP Whnpm instaitelist 
 
-install mongoose
+npm install mongoose
 
 #To connect ot MongoDB via shell
 1.click connect in cluster in mongodb.com
