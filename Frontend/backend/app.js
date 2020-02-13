@@ -7,9 +7,9 @@ const mongoose = require("mongoose");
 
 //Import Mongodb Model
 const Post = require('./models/post');
-// mongoose.set('useNewUrlParser', true);
-// mongoose.set('useUnifiedTopology', true);
-const db =   mongoose.connect('mongodb+srv://ragul:Q494xuBmLDhqQrhN@cluster0-0tack.mongodb.net/test?retryWrites=true&w=majority',
+
+//mongodb+srv://user:password@cluster0-0tack.mongodb.net/databasename?retryWrites=true&w=majority'
+const db =   mongoose.connect('mongodb+srv://ragul:Q494xuBmLDhqQrhN@cluster0-0tack.mongodb.net/node-angular?retryWrites=true&w=majority',
    {   useNewUrlParser: true,
     useFindAndModify: false,
     useCreateIndex: true,
@@ -39,6 +39,7 @@ const post = new Post({
     title: req.body.title,
     content: req.body.content
 });
+post.save();  // mongo db function to save data
 console.log('post', post);
 res.status(201).json({
     message: 'Post added Succesfully!'
