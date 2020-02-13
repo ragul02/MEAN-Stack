@@ -27,3 +27,9 @@ install mongoose
 8. to find ollections use - show collections
 
 
+Routing:
+  {path: '', component: PostListComponent} - Empty indicate root page or start page
+  
+ 
+
+
