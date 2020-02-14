@@ -16,7 +16,7 @@ export class PostsService {
               return{ title: post.title,
                 content: post.content,
                 id: post._id  // convert _id to id
-              }
+              };
            });
         }))
         .subscribe((transformedPost) => {
@@ -36,10 +36,10 @@ export class PostsService {
             // tslint:disable-next-line:object-literal-shorthand
             content: content,
         };
-        this.http.post<{ message: string, postId:string }>('http://localhost:3000/api/posts', post)
+        this.http.post<{ message: string, postId: string }>('http://localhost:3000/api/posts', post)
             .subscribe(res => {
                 const id = res.postId;
-                post.id= id;
+                post.id = id;
                 console.log('response', res.message);
                 this.posts.push(post);
                 this.postUpdated.next([...this.posts]);

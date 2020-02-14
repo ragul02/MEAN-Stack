@@ -34,7 +34,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
           );
           res.setHeader(
             "Access-Control-Allow-Methods",
-            "GET, POST, PATCH, DELETE, OPTIONS"
+            "GET, POST, PATCH, PUT, DELETE, OPTIONS"
           );        next();
     });
 
@@ -73,6 +73,7 @@ res.status(200).json({message: 'Post updated sucessfully!',
 //Get All post
 app.get("/api/posts", (req, res, next) => {
     Post.find().then(documents => {
+        console.log('docu', documents);
       res.status(200).json({
         message: "Posts fetched successfully!",
         posts: documents
@@ -83,6 +84,7 @@ app.get("/api/posts", (req, res, next) => {
   //Get post by id for updaate
   app.get("/api/posts/:id", (req, res, next) => {
       Post.findById(req.params.id).then(post => {
+          console.log('post', post);
           if(post) {
               res.status(200).json(post)
             } else {
