@@ -34,5 +34,25 @@ export class PostsService {
             });
     }
     // 0tbhVXHm3yJKF2h8
+    updatePost(id: string, title: string, content: string) {
+        const post: Post = { id: id, title: title, content: content };
+
+        this.http.put('http://localhost:3000/api/posts/' + id, post)
+            .subscribe(res => {
+                console.log(res);
+                const updatedPost = [...this.posts];
+                const updatedPostIndex = updatedPost.findIndex(p => p.id === post.id);
+                updatedPost[updatedPostIndex] = post;
+                this.posts = updatedPost;
+                this.postUpdated.next([...this.posts]);
+            });
+    }
+
+
+    //Get post by id
+    getPost(id: string) {
+        return this.http.get<{ _id: string, title: string, content: string }>('http://localhost:3000/api/posts/' + id);
+    }
+
 }
 

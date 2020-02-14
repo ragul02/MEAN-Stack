@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 
 // schema - Blueprint 
 const postSchema = mongoose.Schema({
+    // _id: { type: String },
     title: { type: String, required : true},
     content: { type: String, required : true},
 });

@@ -28,49 +28,60 @@ app.use(bodyParser.urlencoded({extended: false}));
     app.use((req, res, next) => {
         res.setHeader('Access-Control-Allow-Origin', '*');
         res.setHeader('Access-Control-Allow-Headers', "Origin, Content-Type, X-Requested-With, Accept");
-        res.setHeader('Access-Control-Allow-Methods', "GET, POST, PATCH, DELETE, OPTIONS")
+        res.setHeader('Access-Control-Allow-Methods', "GET, POST, PUT, PATCH, DELETE, OPTIONS")
     
         next();
     });
 
 app.post('/api/posts', (req, res, next) => {
-    //Using the Post model from mongodb
+     //Using the Post model from mongodb
 const post = new Post({
     title: req.body.title,
     content: req.body.content
 });
-post.save();  // mongo db function to save data
-console.log('post', post);
-res.status(201).json({
-    message: 'Post added Succesfully!'
+post.save().then(createdPost => {
+    res.status(201).json({
+      message: "Post added successfully",
+      postId: createdPost._id
+    });
+  });
+});
+
+//update post
+app.put("/api/posts/:id", (req, res, next) => {
+const post = new Post({
+    _id: req.body.id,
+    title: req.body.title,
+    content: req.body.content
+});
+    Post.updateOne({_id: req.params.id}, post).then( result => {
+console.log(result);
+res.status(200).json({message: 'Post updated sucessfully!',
 })
+    }, (err) => {
+        console.log('err', err);
+    });
 });
 
-app.get('/api/posts', (req, res, next) => {
-    const posts = [{
-            id: '2adakmkjs34ds',
-            title: 'First title',
-            content: 'First content from server'
-        },
-        {
-            id: '4djgimkjs57kkfd',
-            title: 'Second title',
-            content: 'First content from server'
-        }
-    ]
-    res.status(200).json({
-        message: 'Post recieved successfully!',
-        posts: posts
-    })
-});
 
-// app.use((req, res, next) => {
-//     console.log('First middleware');
-//     next();
-// });
-
-// app.use((req, res, next) => {
-//     res.send('Hi, This is from express!');
-// });
-
-module.exports = app;
+//Get All post
+app.get("/api/posts", (req, res, next) => {
+    Post.find().then(documents => {
+      res.status(200).json({
+        message: "Posts fetched successfully!",
+        posts: documents
+      });
+    });
+  });
+  
+  //Get post by id for updaate
+  app.get("/api/posts/:id", (req, res, next) => {
+      Post.findById(req.params.id).then(post => {
+          if(post) {
+              res.status(200).json(post)
+            } else {
+                res.status(404).json({message: 'Post not found!'})
+            }
+        })
+    });
+    module.exports = app;
