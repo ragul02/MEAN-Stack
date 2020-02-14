@@ -12,7 +12,23 @@ mongobd.com - Create account
 <!-- ramachand -->
 create cluster 
 add user to cluster
-add IP to IP Whitelist 
+add IP to IP Whnpm instaitelist 
+
+npm install mongoose
+
+#To connect ot MongoDB via shell
+Mongoose Docs: http://mongoosejs.com/docs/guide.html
+MongoDB Docs: https://www.mongodb.com/
+MongoDB Atlas Docs: https://www.mongodb.com/cloud/atlas
+1.click connect in cluster in mongodb.com
+2.download Mongo shell and install
+3.open cmd to directory bin in mongodb
+4.Run your connection string in your command line - mongo "mongodb+srv://cluster0-0tack.mongodb.net/test"  --username ragul
+5.enter password
+6. to switch db - use dbname
+7. help to show commande
+8. to find ollections use - show collections
+
 
 install mongoose
 
