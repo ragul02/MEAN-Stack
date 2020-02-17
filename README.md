@@ -46,6 +46,8 @@ install mongoose
 Routing:
   {path: '', component: PostListComponent} - Empty indicate root page or start page
   
+# Uploading Image
+  
  
 
 

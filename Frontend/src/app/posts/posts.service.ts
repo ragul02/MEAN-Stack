@@ -3,12 +3,13 @@ import { Subject, observable } from "rxjs";
 import { Post } from './post.model';
 import { HttpClient } from '@angular/common/http';
 import { map} from 'rxjs/operators';
+import { Router } from '@angular/router';
 @Injectable({ providedIn: 'root' })
 export class PostsService {
 
     private posts: Post[] = [];
     private postUpdated = new Subject<Post[]>();
-    constructor(private http: HttpClient) { }
+    constructor(private http: HttpClient, private router: Router) { }
     getPosts() {
         this.http.get<{ message: string, posts: any }>('http://localhost:3000/api/posts')
         .pipe( map((postData) => {  // using pipe convert the objetc and store in new array
@@ -43,6 +44,7 @@ export class PostsService {
                 console.log('response', res.message);
                 this.posts.push(post);
                 this.postUpdated.next([...this.posts]);
+                this.router.navigate(['/']);
             });
     }
 
@@ -68,6 +70,7 @@ console.log(res);
                 updatedPost[updatedPostIndex] = post;
                 this.posts = updatedPost;
                 this.postUpdated.next([...this.posts]);
+                this.router.navigate(['/']);
             });
     }
 
