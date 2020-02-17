@@ -47,7 +47,7 @@ export class PostsService {
     }
 
 
-    deletePost(postId){
+    deletePost(postId) {
         this.http.delete('http://localhost:3000/api/posts/' + postId)
         .subscribe( res => {
             const postUpdates =  this.posts.filter(post => post.id !== postId);
