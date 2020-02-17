@@ -45,9 +45,10 @@ install mongoose
 
 Routing:
   {path: '', component: PostListComponent} - Empty indicate root page or start page
-  
+
 # Uploading Image
-  
+  Template driven form - Form in html,
+  Reactive forms - Define everything in typescript about the form
  
 
 
