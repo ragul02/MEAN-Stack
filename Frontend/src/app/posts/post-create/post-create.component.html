@@ -10,6 +10,13 @@
             minlength="3" />
             <mat-error *ngIf="form.get('title').invalid">Please enter title!</mat-error> 
         </mat-form-field>
+        <div>
+            <button class="submit" mat-stroked-button (click)="filePicker.click()">Pick Image</button>
+            <input type="file" #filePicker (change)="onImagePicked($event)">
+        </div>
+        <div class="image-preview" *ngIf="imagePreview !== '' && imagePreview">
+<img [src]="imagePreview" alt="form.value.title">
+        </div>
         <mat-form-field>
             <textarea matInput rows="4" 
             placeholder="Content"  

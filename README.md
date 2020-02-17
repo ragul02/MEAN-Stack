@@ -48,7 +48,7 @@ Routing:
 
 # Uploading Image
   Template driven form - Form in html,
-  Reactive forms - Define everything in typescript about the form
+  Reactive forms - Define everything in typescript about the form Eg: FormGroup
  
 
 
