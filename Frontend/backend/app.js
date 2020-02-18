@@ -8,6 +8,8 @@ const mongoose = require("mongoose");
 //import route
 const postRoutes = require("./routes/posts");
 
+const path = require('path');
+
 //mongodb+srv://user:password@cluster0-0tack.mongodb.net/databasename?retryWrites=true&w=majority'
 const db =   mongoose.connect('mongodb+srv://ragul:Q494xuBmLDhqQrhN@cluster0-0tack.mongodb.net/node-angular?retryWrites=true&w=majority',
    {   useNewUrlParser: true,
@@ -37,5 +39,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
             "GET, POST, PATCH, PUT, DELETE, OPTIONS"
           );        next();
     });
+    app.use('/images', express.static(path.join("backend/images"))); //allow access to the images folder
 app.use('/api/posts',postRoutes);
     module.exports = app;

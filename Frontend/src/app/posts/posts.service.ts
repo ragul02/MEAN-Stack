@@ -14,6 +14,7 @@ export class PostsService {
         this.http.get<{ message: string, posts: any }>('http://localhost:3000/api/posts')
             .pipe(map((postData) => {  // using pipe convert the objetc and store in new array
                 return postData.posts.map(post => {
+                    console.log('get post', post);
                     return {
                         title: post.title,
                         content: post.content,
@@ -39,16 +40,14 @@ export class PostsService {
 
 
         this.http.post<{ message: string, post: Post}>('http://localhost:3000/api/posts', postData)
-            .subscribe(res => {
+            .subscribe(responseData => {
                 const post: Post = {
-                    id: res.post.id,
+                    id: responseData.post.id,
                     title: title,
                     content: content,
-                    imagePath: res.post.imagePath,
+                    imagePath: responseData.post.imagePath,
                  };
-                const id = res.postId;
-                post.id = id;
-                console.log('response', res.message);
+                console.log('response', responseData.message);
                 this.posts.push(post);
                 this.postUpdated.next([...this.posts]);
                 this.router.navigate(['/']);
@@ -84,7 +83,7 @@ export class PostsService {
 
     //Get post by id
     getPost(id: string) {
-        return this.http.get<{ _id: string, title: string, content: string }>('http://localhost:3000/api/posts/' + id);
+        return this.http.get<{ _id: string, title: string, content: string, imagePath: string }>('http://localhost:3000/api/posts/' + id);
     }
 
 }

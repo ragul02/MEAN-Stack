@@ -3,11 +3,12 @@
 <mat-accordion multi="true" *ngIf="posts.length > 0 && !isLoading">
     <mat-expansion-panel *ngFor="let item of posts">
         <mat-expansion-panel-header>
-            {{item.title}}
+            {{item.title}} 
         </mat-expansion-panel-header>
+<div class="imagePath">
+    <img [src]="item.imagePath" [alt]="item.title">
+</div>
         <p>{{item.content}}</p>
-
-        {{item | json }}}}
         <mat-action-row>
             <a mat-button color="primary"  [routerLink]="['/editPost', item.id]"> EDIT</a>
             <button mat-button color="warn" (click)="deletePost(item.id)"> DELETE</button>

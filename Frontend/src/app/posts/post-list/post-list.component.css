@@ -5,3 +5,7 @@
 mat-spinner {
     margin: auto;
 }
+
+.imagePath img {
+    width: 100%;
+}
