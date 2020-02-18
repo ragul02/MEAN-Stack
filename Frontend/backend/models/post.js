@@ -5,6 +5,7 @@ const postSchema = mongoose.Schema({
     // _id: { type: String },
     title: { type: String, required : true},
     content: { type: String, required : true},
+    imagePath: {type: String, required: true}
 });
 
 // model has two areguments 1st Name of model to use, 2nd Schema it required

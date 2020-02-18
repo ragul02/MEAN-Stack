@@ -3,8 +3,10 @@ import { Observable, observable, Observer } from 'rxjs';
 
 // All validators are function
 
+
+
 export const mimeType = (control: AbstractControl):
-    Promise<{ [key: string] }> | Observable<{ [key: string] }> => {
+    Promise<{ [key: string]: any }> | Observable<{ [key: string]: any }> => {
     const file = control.value as File;
     const fileReader = new FileReader();
     const fobs = Observable.create((observer: Observer<{ [key: string]: any }>) => { // create own observable , observable has an observer

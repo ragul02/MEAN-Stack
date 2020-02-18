@@ -49,6 +49,10 @@ Routing:
 # Uploading Image
   Template driven form - Form in html,
   Reactive forms - Define everything in typescript about the form Eg: FormGroup
+
+
+  #multer
+  npm install --save multer - To store files in backend using NodeJS.
  
 
 

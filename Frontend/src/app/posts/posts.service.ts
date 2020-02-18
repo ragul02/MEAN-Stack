@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Subject, observable } from "rxjs";
 import { Post } from './post.model';
 import { HttpClient } from '@angular/common/http';
-import { map} from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { Router } from '@angular/router';
 @Injectable({ providedIn: 'root' })
 export class PostsService {
@@ -12,33 +12,40 @@ export class PostsService {
     constructor(private http: HttpClient, private router: Router) { }
     getPosts() {
         this.http.get<{ message: string, posts: any }>('http://localhost:3000/api/posts')
-        .pipe( map((postData) => {  // using pipe convert the objetc and store in new array
-           return postData.posts.map( post =>{
-              return{ title: post.title,
-                content: post.content,
-                id: post._id  // convert _id to id
-              };
-           });
-        }))
-        .subscribe((transformedPost) => {
-            this.posts = transformedPost;
-            this.postUpdated.next([...this.posts]);
-        });
+            .pipe(map((postData) => {  // using pipe convert the objetc and store in new array
+                return postData.posts.map(post => {
+                    return {
+                        title: post.title,
+                        content: post.content,
+                        id: post._id,  // convert _id to id
+                        imagePath: post.imagePath
+                    };
+                });
+            }))
+            .subscribe((transformedPost) => {
+                this.posts = transformedPost;
+                this.postUpdated.next([...this.posts]);
+            });
     }
 
     getPostsUpdateListener() {
         return this.postUpdated.asObservable();
     }
-    addPosts(title: string, content: string) {
-        const post: Post = {
-            id: null,
-            // tslint:disable-next-line:object-literal-shorthand
-            title: title,
-            // tslint:disable-next-line:object-literal-shorthand
-            content: content,
-        };
-        this.http.post<{ message: string, postId: string }>('http://localhost:3000/api/posts', post)
+    addPosts(title: string, content: string, image: File) {
+        const postData = new FormData();
+        postData.append('title', title);
+        postData.append('content', content);
+        postData.append('image', image, title);
+
+
+        this.http.post<{ message: string, post: Post}>('http://localhost:3000/api/posts', postData)
             .subscribe(res => {
+                const post: Post = {
+                    id: res.post.id,
+                    title: title,
+                    content: content,
+                    imagePath: res.post.imagePath,
+                 };
                 const id = res.postId;
                 post.id = id;
                 console.log('response', res.message);
@@ -51,16 +58,16 @@ export class PostsService {
 
     deletePost(postId) {
         this.http.delete('http://localhost:3000/api/posts/' + postId)
-        .subscribe( res => {
-            const postUpdates =  this.posts.filter(post => post.id !== postId);
-            this.posts = postUpdates;
-            this.postUpdated.next([...this.posts]);
-console.log(res);
-        });
+            .subscribe(res => {
+                const postUpdates = this.posts.filter(post => post.id !== postId);
+                this.posts = postUpdates;
+                this.postUpdated.next([...this.posts]);
+                console.log(res);
+            });
     }
     // 0tbhVXHm3yJKF2h8
     updatePost(id: string, title: string, content: string) {
-        const post: Post = { id: id, title: title, content: content };
+        const post: Post = { id: id, title: title, content: content, imagePath: null };
 
         this.http.put('http://localhost:3000/api/posts/' + id, post)
             .subscribe(res => {
