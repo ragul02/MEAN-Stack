@@ -3,7 +3,7 @@ import { NgForm, Form, FormGroup, FormControl, Validators } from '@angular/forms
 import { PostsService } from "../posts.service";
 import { Post } from '../post.model';
 import { ActivatedRoute, ParamMap } from '@angular/router';
-import { mimeType} from './mime-type.validator';
+import { mimeType } from './mime-type.validator';
 @Component({
     selector: 'app-post-create',
     templateUrl: './post-create.component.html',
@@ -35,8 +35,12 @@ export class PostCreateComponent implements OnInit {
                 this.isLoading = true;
                 this.postService.getPost(this.postId).subscribe(post => {
                     this.isLoading = false;
-                    this.post = { id: post._id, title: post.title, content: post.content,
-                    imagePath: post.imagePath };
+                    this.post = {
+                        id: post._id,
+                        title: post.title,
+                        content: post.content,
+                        imagePath: post.imagePath
+                    };
                     this.form.setValue({
                         title: this.post.title,
                         content: this.post.content,
@@ -70,14 +74,16 @@ export class PostCreateComponent implements OnInit {
         }
         this.isLoading = true;
         if (this.mode === 'create') {
-            this.postService.addPosts(this.form.value.title, 
+            this.postService.addPosts(this.form.value.title,
                 this.form.value.content,
                 this.form.value.image);
             this.isLoading = false;
         } else {
             this.postService.updatePost(this.postId,
                 this.form.value.title,
-                this.form.value.content);
+                this.form.value.content,
+                this.form.value.updatePost
+                );
             this.isLoading = false;
 
         }

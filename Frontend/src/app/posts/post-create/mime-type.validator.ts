@@ -1,5 +1,5 @@
 import { AbstractControl } from '@angular/forms';
-import { Observable, observable, Observer } from 'rxjs';
+import { Observable, observable, Observer, of } from 'rxjs';
 
 // All validators are function
 
@@ -7,6 +7,9 @@ import { Observable, observable, Observer } from 'rxjs';
 
 export const mimeType = (control: AbstractControl):
     Promise<{ [key: string]: any }> | Observable<{ [key: string]: any }> => {
+    if (typeof (control.value) === "string") {
+        return of(null);
+    }
     const file = control.value as File;
     const fileReader = new FileReader();
     const fobs = Observable.create((observer: Observer<{ [key: string]: any }>) => { // create own observable , observable has an observer
