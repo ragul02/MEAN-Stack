@@ -11,6 +11,7 @@ import {  MatInputModule, MatCardModule,
   MatExpansionModule,
   MatButtonModule, MatToolbarModule,
 MatProgressSpinnerModule } from '@angular/material';
+import {MatPaginatorModule} from '@angular/material/paginator';
 import { HttpClientModule} from '@angular/common/http';
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { HttpClientModule} from '@angular/common/http';
     MatInputModule,
     MatCardModule,
     MatButtonModule,
+    MatPaginatorModule,
     MatProgressSpinnerModule,
   MatExpansionModule,
   MatToolbarModule,

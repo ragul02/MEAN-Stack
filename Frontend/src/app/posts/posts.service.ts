@@ -9,24 +9,29 @@ import { Form } from '@angular/forms';
 export class PostsService {
 
     private posts: Post[] = [];
-    private postUpdated = new Subject<Post[]>();
+    private postUpdated = new Subject<{ posts: Post[], postsCount: number }>();
     constructor(private http: HttpClient, private router: Router) { }
-    getPosts() {
-        this.http.get<{ message: string, posts: any }>('http://localhost:3000/api/posts')
+    getPosts(pageSize: number, currentPage: number) {
+        const queryParams = `?pageSize=${pageSize}&currentPage=${currentPage}`;
+        this.http.get<{ message: string, posts: any, maxPosts: number }>('http://localhost:3000/api/posts' + queryParams)
             .pipe(map((postData) => {  // using pipe convert the objetc and store in new array
-                return postData.posts.map(post => {
-                    console.log('get post', post);
-                    return {
-                        title: post.title,
-                        content: post.content,
-                        id: post._id,  // convert _id to id
-                        imagePath: post.imagePath
-                    };
-                });
+                return {
+                    posts: postData.posts.map(post => {
+                        return {
+                            title: post.title,
+                            content: post.content,
+                            id: post._id,  // convert _id to id
+                            imagePath: post.imagePath
+                        };
+                    }), maxPosts: postData.maxPosts
+                };
             }))
-            .subscribe((transformedPost) => {
-                this.posts = transformedPost;
-                this.postUpdated.next([...this.posts]);
+            .subscribe((transformedPostData) => {
+                this.posts = transformedPostData.posts;
+                this.postUpdated.next({
+                    posts: [...this.posts],
+                    postsCount: transformedPostData.maxPosts
+                });
             });
     }
 
@@ -42,29 +47,15 @@ export class PostsService {
 
         this.http.post<{ message: string, post: Post }>('http://localhost:3000/api/posts', postData)
             .subscribe(responseData => {
-                const post: Post = {
-                    id: responseData.post.id,
-                    title: title,
-                    content: content,
-                    imagePath: responseData.post.imagePath,
-                };
-                console.log('response', responseData.message);
-                this.posts.push(post);
-                this.postUpdated.next([...this.posts]);
                 this.router.navigate(['/']);
             });
     }
 
 
     deletePost(postId) {
-        this.http.delete('http://localhost:3000/api/posts/' + postId)
-            .subscribe(res => {
-                const postUpdates = this.posts.filter(post => post.id !== postId);
-                this.posts = postUpdates;
-                this.postUpdated.next([...this.posts]);
-                console.log(res);
-            });
+        return this.http.delete('http://localhost:3000/api/posts/' + postId);
     }
+    
     // 0tbhVXHm3yJKF2h8
     updatePost(id: string, title: string, content: string, image: File | string) {
         let postData: FormData | Post;
@@ -85,17 +76,6 @@ export class PostsService {
         this.http.put('http://localhost:3000/api/posts/' + id, postData)
             .subscribe(res => {
                 console.log(res);
-                const updatedPost = [...this.posts];
-                const updatedPostIndex = updatedPost.findIndex(p => p.id === id);
-                const post: Post = {
-                    id: id,
-                    title: title,
-                    content: content,
-                    // imagePath: res.imagePath
-                };
-                updatedPost[updatedPostIndex] = post;
-                this.posts = updatedPost;
-                this.postUpdated.next([...this.posts]);
                 this.router.navigate(['/']);
             });
     }
