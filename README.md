@@ -61,3 +61,6 @@ Routing:
 #bcrypt - to encrypt the password
 npm install --save bcrypt
 
+#SPA Authentication
+#install json web token 
+npm install --save jsonwebtoken
