@@ -6,7 +6,12 @@ import { AuthData } from './auth-data.model';
     providedIn: 'root'
 })
 export class AuthService {
+    private token;
     constructor(public http: HttpClient) { }
+
+    getToken() {
+        return this.token;
+    }
 
     /** Create User (SignUp) */
     createUser(email: string, password: string) {
@@ -15,9 +20,9 @@ export class AuthService {
             password: password
         };
         this.http.post('http://localhost:3000/api/user/signup', authData)
-        .subscribe( result => {
-            console.log(result);
-        });
+            .subscribe(result => {
+                console.log(result);
+            });
     }
 
     login(emailId: string, password: string) {
@@ -25,9 +30,10 @@ export class AuthService {
             email: emailId,
             password: password
         };
-        this.http.post('http://localhost:3000/api/user/login', authData)
-        .subscribe( result => {
-            console.log(result);
-        });
+        this.http.post<{ token: string }>('http://localhost:3000/api/user/login', authData)
+            .subscribe(result => {
+                const token = result.token;
+                this.token = token
+            });
     }
 }

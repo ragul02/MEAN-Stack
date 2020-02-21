@@ -5,6 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { Form } from '@angular/forms';
+import { AuthService } from '../auth/auth.service';
 @Injectable({ providedIn: 'root' })
 export class PostsService {
 
