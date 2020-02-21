@@ -54,5 +54,10 @@ Routing:
   #multer
   npm install --save multer - To store files in backend using NodeJS.
  
+ #unique validator - third part plugin to validate
+ npm install --save mongoose-unique-validator
 
+
+#bcrypt - to encrypt the password
+npm install --save bcrypt
 

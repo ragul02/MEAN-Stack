@@ -109,9 +109,8 @@ let fetchedPosts ;
     postQuery.find().
     then(documents => {
         fetchedPosts = documents;
-      return Post.count();
+      return Post.countDocuments();
     }).then(count => {
-        console.log('docu', documents);
         res.status(200).json({
             message: "Posts fetched successfully!",
             posts: fetchedPosts,
