@@ -34,11 +34,14 @@ router.post('',
     (req, res, next) => {
         //Using the Post model from mongodb
         const url = req.protocol + '://' + req.get('host');
+        console.log('creator', req.userData);
         const post = new Post({
             title: req.body.title,
             content: req.body.content,
-            imagePath: url + '/images/' + req.file.filename
+            imagePath: url + '/images/' + req.file.filename,
+            creator: req.userData.userId
         });
+        console.log('er', req.userData);       
         post.save().then(createdPost => {
             res.status(201).json({
                 message: "Post added successfully",
@@ -50,28 +53,30 @@ router.post('',
         });
     });
 
-router.post(
-    "",
-    checkAuth,
-    multer({ storage: storage }).single("image"),
-    (req, res, next) => {
-        const url = req.protocol + "://" + req.get("host");
-        const post = new Post({
-            title: req.body.title,
-            content: req.body.content,
-            imagePath: url + "/images/" + req.file.filename
-        });
-        post.save().then(createdPost => {
-            res.status(201).json({
-                message: "Post added successfully",
-                title: createdPost.title,
-                content: createdPost.content,
-                imagePath: createdPost.imagePath,
-                id: createdPost._id
-            });
-        });
-    }
-);
+// router.post(
+//     "",
+//     checkAuth,
+//     multer({ storage: storage }).single("image"),
+//     (req, res, next) => {
+//         const url = req.protocol + "://" + req.get("host");
+//         const post = new Post({
+//             title: req.body.title,
+//             content: req.body.content,
+//             imagePath: url + "/images/" + req.file.filename,
+//             creator:req.userData.usrId
+//         });
+//         console.log('er', req.userData);
+//         post.save().then(createdPost => {
+//             res.status(201).json({
+//                 message: "Post added successfully",
+//                 title: createdPost.title,
+//                 content: createdPost.content,
+//                 imagePath: createdPost.imagePath,
+//                 id: createdPost._id
+//             });
+//         });
+//     }
+// );
 
 //update post
 router.put("/:id",
@@ -88,14 +93,18 @@ router.put("/:id",
             _id: req.body.id,
             title: req.body.title,
             content: req.body.content,
-            imagePath: imagePath
+            imagePath: imagePath,
+            creator: req.userData.userId
+
         });
         console.log('post', post);
-        Post.updateOne({ _id: req.params.id }, post).then(result => {
+        Post.updateOne({ _id: req.params.id, creator: req.userData.userId }, post).then(result => {
             console.log(result);
-            res.status(200).json({
-                message: 'Post updated sucessfully!',
-            })
+            if(result.nModified > 0) {
+                res.status(200).json({message: 'Post updated sucessfully!'});
+            } else {
+                res.status(401).json({message: 'Not Authorized!'});
+            }
         }, (err) => {
             console.log('err', err);
         });
@@ -140,9 +149,12 @@ router.get("/:id", (req, res, next) => {
 
 //delete post
 router.delete("/:id", checkAuth, (req, res, next) => {
-    Post.deleteOne({ _id: req.params.id }).then(result => {
-
+    Post.deleteOne({ _id: req.params.id, creator: req.userData.userId }).then(result => {
+        if(result.n > 0) {
         res.status(200).json({ message: 'Post deleted!' })
+        } else {
+            res.status(401).json({message: 'Not Authorized!'});
+      
 
     })
 });
