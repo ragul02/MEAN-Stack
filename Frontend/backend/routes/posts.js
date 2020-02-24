@@ -155,7 +155,8 @@ router.delete("/:id", checkAuth, (req, res, next) => {
         } else {
             res.status(401).json({message: 'Not Authorized!'});
       
-
-    })
+        }
+    });
 });
+
 module.exports = router;
