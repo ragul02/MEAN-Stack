@@ -1,0 +1,7 @@
+{
+    "env" :{
+        "MONGO_ATLA_PASSWORD" : "Q494xuBmLDhqQrhN",
+        "JWT_KEY":"secret_should_be_long"
+    }
+}
+// GLOBAL VARIABLE INJECTED INTO RUNNING NODE PROCESS

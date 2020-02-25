@@ -49,7 +49,7 @@ exports.loginUser =  (req, res, next) => {
                 })
             }
             const token = jsonwebtoken.sign({ email: fetchedUser.email, id: fetchedUser._id },
-                'secret_should_be_long', //second argument should be long string, it validate the hashes
+                process.env.JWT_KEY, //second argument should be long string, it validate the hashes
                 { expiresIn: '1h' } //third argument optional, expiring time
             );
             res.status(200).json({
