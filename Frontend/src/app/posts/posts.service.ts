@@ -6,6 +6,8 @@ import { map } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { Form } from '@angular/forms';
 import { AuthService } from '../auth/auth.service';
+import { environment  } from '../../environments/environment';
+const BACKEND_URL = environment.apiUrl + '/posts/';
 @Injectable({ providedIn: 'root' })
 export class PostsService {
 
@@ -14,7 +16,7 @@ export class PostsService {
     constructor(private http: HttpClient, private router: Router) { }
     getPosts(pageSize: number, currentPage: number) {
         const queryParams = `?pageSize=${pageSize}&currentPage=${currentPage}`;
-        this.http.get<{ message: string, posts: any, maxPosts: number }>('http://localhost:3000/api/posts' + queryParams)
+        this.http.get<{ message: string, posts: any, maxPosts: number }>(BACKEND_URL + queryParams)
             .pipe(map((postData) => {  // using pipe convert the objetc and store in new array
                 return {
                     posts: postData.posts.map(post => {
@@ -48,7 +50,7 @@ export class PostsService {
         postData.append('image', image, title);
 
 
-        this.http.post<{ message: string, post: Post }>('http://localhost:3000/api/posts', postData)
+        this.http.post<{ message: string, post: Post }>(BACKEND_URL, postData)
             .subscribe(responseData => {
                 this.router.navigate(['/']);
             });
@@ -56,7 +58,7 @@ export class PostsService {
 
 
     deletePost(postId) {
-        return this.http.delete('http://localhost:3000/api/posts/' + postId);
+        return this.http.delete(BACKEND_URL + postId);
     }
     
     // 0tbhVXHm3yJKF2h8
@@ -77,7 +79,7 @@ export class PostsService {
                 creator : null
             };
         }
-        this.http.put('http://localhost:3000/api/posts/' + id, postData)
+        this.http.put(BACKEND_URL + id, postData)
             .subscribe(res => {
                 console.log(res);
                 this.router.navigate(['/']);
@@ -88,7 +90,7 @@ export class PostsService {
     //Get post by id
     getPost(id: string) {
         return this.http.get<{ _id: string, title: string, content: string, imagePath: string, creator: string }>(
-            'http://localhost:3000/api/posts/' + id);
+            'BACKEND_URL/' + id);
     }
 
 }
