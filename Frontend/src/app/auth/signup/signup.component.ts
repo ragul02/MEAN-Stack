@@ -13,7 +13,7 @@ export class SignupComponent implements OnInit, OnDestroy{
     constructor(public authService: AuthService) { }
 
     ngOnInit() {
-        this.authService.getAuthListener().subscribe(isAuthenticated => {
+       this.authStattusSub = this.authService.getAuthListener().subscribe(isAuthenticated => {
             this.isLoading = false;
         });
     }

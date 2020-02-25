@@ -10,11 +10,11 @@ import { Subscription } from 'rxjs';
 
 export class LoginComponent implements OnInit, OnDestroy {
     isLoading = false;
-    private authStattusSub: Subscription;
+    private authStatusSub: Subscription;
     constructor(public authService: AuthService) { }
 
     ngOnInit() {
-        this.authService.getAuthListener().subscribe(isAuthenticated => {
+        this.authStatusSub = this.authService.getAuthListener().subscribe(isAuthenticated => {
             this.isLoading = false;
         });
     }
@@ -31,6 +31,6 @@ export class LoginComponent implements OnInit, OnDestroy {
     }
     
     ngOnDestroy() {
-        this.authStattusSub.unsubscribe();
+        this.authStatusSub.unsubscribe();
     }
 }
