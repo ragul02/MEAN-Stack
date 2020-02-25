@@ -1,6 +1,7 @@
 const Post = require('../models/post');
 
 exports.createPosts = (req, res, next) => {
+    console.log('req', req);
     //Using the Post model from mongodb
     const url = req.protocol + '://' + req.get('host');
     console.log('creator', req.userData);
