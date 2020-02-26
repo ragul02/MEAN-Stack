@@ -11,7 +11,7 @@ const userRoutes = require("./routes/user");
 const path = require('path');
 
 //mongodb+srv://user:password@cluster0-0tack.mongodb.net/databasename?retryWrites=true&w=majority'
-const db =   mongoose.connect('mongodb+srv://ragul:' + process.env.MONGO_ATLA_PASSWORD + '@cluster0-0tack.mongodb.net/node-angular?retryWrites=true&w=majority',
+const db =   mongoose.connect('mongodb+srv://ragul:Q494xuBmLDhqQrhN@cluster0-0tack.mongodb.net/node-angular?retryWrites=true&w=majority',
    {   useNewUrlParser: true,
     useFindAndModify: false,
     useCreateIndex: true,
